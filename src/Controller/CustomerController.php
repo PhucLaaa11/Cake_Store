@@ -73,4 +73,11 @@ class CustomerController extends AbstractController
         $this->addFlash('success', 'Customer has been deleted!');
         return $this->redirectToRoute('app_customer_all');
     }
+    #[Route('/customer/{id}', name: 'app_customer_details')]
+    public function detailsAction(Customer $customer): Response
+    {
+        return $this->render('customer/details.html.twig', [
+            'customer' => $customer
+        ]);
+    }
 }
