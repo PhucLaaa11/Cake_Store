@@ -4,6 +4,8 @@ namespace App\Form;
 
 use App\Entity\Supplier;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -15,7 +17,7 @@ class SupplierType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, ['label_attr'=>['class'=>'form-label'], 'attr'=>['class'=>'form-control']])
-            ->add('date', TextType::class, ['label_attr'=>['class'=>'form-label'], 'attr'=>['class'=>'form-control']])
+            ->add('date', DateType::class, ['label_attr'=>['class'=>'form-label'], 'attr'=>['class'=>'form-control']])
             ->add('submit', SubmitType::class, ['attr' => ['class' => 'btn btn-success']])
         ;
     }

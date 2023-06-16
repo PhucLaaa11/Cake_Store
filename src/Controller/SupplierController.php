@@ -39,4 +39,11 @@ class SupplierController extends AbstractController
             'form' => $form
         ]);
     }
+    #[Route('/supplier/all', name: 'app_supplier_all')]
+    public function getCustomer(SupplierRepository $supplierRepository): Response
+    {
+        $suppliers = $supplierRepository->findAll();
+        return $this->render('supplier/index.html.twig',
+            ['suppliers' => $suppliers]);
+    }
 }
