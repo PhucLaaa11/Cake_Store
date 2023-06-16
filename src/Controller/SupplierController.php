@@ -72,4 +72,12 @@ class SupplierController extends AbstractController
         $this->addFlash('success', 'Supplier has been deleted!');
         return $this->redirectToRoute('app_supplier_all');
     }
+    #[Route('/supplier/{id}', name: 'app_supplier_details')]
+    public function detailsAction(SupplierRepository $supplierRepository, Supplier $supplier): Response
+    {
+//        dd($supplier);
+        return $this->render('supplier/details.html.twig', [
+            'supplier' => $supplier
+        ]);
+    }
 }
