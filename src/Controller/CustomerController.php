@@ -32,11 +32,19 @@ class CustomerController extends AbstractController
             $customer = $form->getData();
             $customerRepository->save($customer, true);
             $this->addFlash('success', 'Customer\'s inserted successfully');
-            return $this->redirectToRoute('app_customer_create');
+            return $this->redirectToRoute('app_customer_all');
         }
 
         return $this->render('customer/create.html.twig', [
             'form' => $form
         ]);
+    }
+    #[Route('/customer/all', name: 'app_customer_all')]
+    public function getCustomer(CustomerRepository $customerRepository): Response
+    {
+        $customers = $customerRepository->findAll();
+        //dd($customers);
+        return $this->render('customer/index.html.twig',
+            ['customers' => $customers]);
     }
 }
