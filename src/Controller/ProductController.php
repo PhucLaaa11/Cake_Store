@@ -50,4 +50,37 @@ class ProductController extends AbstractController
         return $this->render('product/index.html.twig',
             ['products' => $products]);
     }
+    #[Route('/product/edit/{id}', name: 'app_product_edit')]
+    public function editAction(Request $request, ProductRepository $productRepository, Product $product): Response
+    {
+        $form = $this->createForm(ProductType::class, $product);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $product = $form->getData();
+            $productRepository->save($product, true);
+
+            $this->addFlash('success', 'Product\'s updated successfully');
+            return $this->redirectToRoute('app_product_all');
+        }
+
+        return $this->render('product/edit.html.twig', [
+            'form' => $form
+        ]);
+    }
+    #[Route('/product/delete/{id}', name: 'app_product_delete')]
+    public function deleteAction(Product $product, ProductRepository $productRepository): Response
+    {
+        $productRepository->remove($product, true);
+        $this->addFlash('success', 'Product has been deleted!');
+        return $this->redirectToRoute('app_product_all');
+    }
+    #[Route('/product/{id}', name: 'app_product_details')]
+    public function detailsAction(Product $product): Response
+    {
+        return $this->render('product/details.html.twig', [
+            'product' => $product
+        ]);
+    }
 }
