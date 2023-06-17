@@ -25,10 +25,10 @@ class CartDetailController extends AbstractController
     #[Route('/cart_detail/all', name: 'app_cart_detail_all')]
     public function getcart_detail(CartDetailRepository $cartDetailRepository): Response
     {
-        $cartDetail = $cartDetailRepository->findAll();
-        //dd($customers);
+        $cartDetails = $cartDetailRepository->findAll();
+        //dd($cartDetail);
         return $this->render('cart_detail/index.html.twig',
-            ['cartDetail' => $cartDetail]);
+            ['cartDetails' => $cartDetails]);
     }
     #[Route('/cart_detail/create', name: 'app_cart_detail_create', priority: 1)]
     public function createAction(CartDetailRepository $cartDetailRepository, Request $request): Response
@@ -42,13 +42,12 @@ class CartDetailController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $cartDetail = $form->getData();
             $cartDetailRepository->save($cartDetail, true);
-            $this->addFlash('success', 'cart_detail\'s inserted successfully');
-            return $this->redirectToRoute('app_cart_detail_create');
+            $this->addFlash('success', 'cartDetail\'s inserted successfully');
+            return $this->redirectToRoute('app_cartDetail_create');
         }
 
-        return $this->render('cart_detail/create.html.twig', [
+        return $this->render('cartDetail/create.html.twig', [
             'form' => $form
         ]);
     }
-
 }
