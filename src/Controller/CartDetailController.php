@@ -3,10 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\CartDetail;
+use App\Entity\Customer;
 use App\Entity\Product;
 use App\Form\CartDetailType;
+use App\Form\CustomerType;
 use App\Form\ProductType;
 use App\Repository\CartDetailRepository;
+use App\Repository\CustomerRepository;
 use App\Repository\ProductRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,7 +26,7 @@ class CartDetailController extends AbstractController
         ]);
     }
     #[Route('/cart_detail/all', name: 'app_cart_detail_all')]
-    public function getcart_detail(CartDetailRepository $cartDetailRepository): Response
+    public function get_cartDetail(CartDetailRepository $cartDetailRepository): Response
     {
         $cartDetails = $cartDetailRepository->findAll();
         //dd($cartDetail);
@@ -56,5 +59,31 @@ class CartDetailController extends AbstractController
         return $this->render('cart_detail/details.html.twig', [
             'cartDetail' => $cartDetail
         ]);
+    }
+    #[Route('/cart_detail/edit/{id}', name: 'app_cart_detail_edit')]
+    public function editAction(Request $request, CartDetailRepository $cartDetailRepository, CartDetail $cartDetail): Response
+    {
+        $form = $this->createForm(CartDetailType::class, $cartDetail);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $cartDetail = $form->getData();
+            $cartDetailRepository->save($cartDetail, true);
+
+            $this->addFlash('success', 'cart_detail\'s updated successfully');
+            return $this->redirectToRoute('app_cart_detail_all');
+        }
+
+        return $this->render('cart_detail/edit.html.twig', [
+            'form' => $form
+        ]);
+    }
+    #[Route('/cart_detail/delete/{id}', name: 'app_cart_detail_delete')]
+    public function deleteAction(CartDetail $cartDetail, CartDetailRepository $cartDetailRepository): Response
+    {
+        $cartDetailRepository->remove($cartDetail, true);
+        $this->addFlash('success', 'Cart Detail has been deleted!');
+        return $this->redirectToRoute('app_cart_detail_all');
     }
 }

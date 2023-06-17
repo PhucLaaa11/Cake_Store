@@ -21,8 +21,8 @@
                 <td>{{ cartDetail.discount }}</td>
                 <td>
                     <a href="{{ path('app_cart_detail_details', {'id': cartDetail.id}) }} " class='btn btn-success'>View</a>
-{#                    <a class="btn btn-warning" href="{{ path('app_customer_edit', {'id': customer.id}) }}">Edit</a>#}
-{#                    <a class="btn btn-danger" href="{{ path('app_customer_delete', {'id': customer.id}) }}">Delete</a>#}
+                    <a class="btn btn-warning" href="{{ path('app_cart_detail_edit', {'id': cartDetail.id}) }}">Edit</a>
+                    <a class="btn btn-danger" href="{{ path('app_cart_detail_delete', {'id': cartDetail.id}) }}">Delete</a>
                 </td>
             </tr>
         {% endfor %}
