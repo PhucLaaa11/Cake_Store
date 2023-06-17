@@ -8,6 +8,7 @@ use App\Form\CustomerType;
 use App\Form\ProductType;
 use App\Repository\CustomerRepository;
 use App\Repository\ProductRepository;
+use App\Repository\SupplierRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -41,5 +42,12 @@ class ProductController extends AbstractController
         return $this->render('product/create.html.twig', [
             'form' => $form
         ]);
+    }
+    #[Route('/product/all', name: 'app_product_all')]
+    public function getProduct(ProductRepository $productRepository): Response
+    {
+        $products = $productRepository->findAll();
+        return $this->render('product/index.html.twig',
+            ['products' => $products]);
     }
 }
